@@ -7,7 +7,6 @@ local pairs = pairs
 local C_TimerAfter = C_Timer.After
 local IsAddOnLoaded = (C_AddOns and C_AddOns.IsAddOnLoaded) or IsAddOnLoaded
 
-
 local MAX_STATIC_POPUPS = 4
 
 local function LoadSkin()
@@ -28,8 +27,6 @@ local function LoadSkin()
 		_G.ChatConfigFrame:BuiStyle("Outside")
 		_G.ReadyCheckFrame:BuiStyle("Outside")
 		_G.ReadyCheckListenerFrame:BuiStyle("Outside")
-		_G.SplashFrame:CreateBackdrop("Transparent")
-		_G.SplashFrame.backdrop:BuiStyle("Outside")
 	end
 
 	local function repUpdate()
@@ -39,43 +36,43 @@ local function LoadSkin()
 	end
 
 	if db.character then
-		_G.PaperDollFrame:BuiStyle("Outside")
-		_G.ReputationFrame:BuiStyle("Outside")
-		_G.TokenFrame:BuiStyle("Outside")
-		_G.CurrencyTransferLog:BuiStyle("Outside")
-		_G.TokenFramePopup:BuiStyle("Outside")
+		if not E.Classic then
+			_G.CharacterFrame:BuiStyle("Outside")
+		else
+			_G.CharacterFrame.backdrop:BuiStyle("Outside")
+		end
+		hooksecurefunc('ReputationFrame_Update', repUpdate)
+	end
+
+	local function engUpdate()
+		if _G.EngravingFrame then
+			if not _G.EngravingFrame.backdrop.style then
+				_G.EngravingFrame.backdrop:BuiStyle("Outside")
+			end
+		end
+	end
+
+	if (db.engraving and E.ClassicSOD) then 
+		_G.CharacterFrame:HookScript('OnShow', engUpdate)
 	end
 
 	if db.dressingroom then
-		_G.DressUpFrame:BuiStyle("Outside")
-		_G.DressUpFrame.OutfitDetailsPanel:BuiStyle("Outside")
-		_G.DressUpFrame.SetSelectionPanel:BuiStyle("Outside")
-		_G.WardrobeOutfitEditFrame:BuiStyle("Outside")
-	end
-
-	if db.editor then
-		_G.EditModeManagerFrame.backdrop:BuiStyle("Outside")
-		_G.EditModeNewLayoutDialog.backdrop:BuiStyle("Outside")
-		_G.EditModeUnsavedChangesDialog.backdrop:BuiStyle("Outside")
-		_G.EditModeImportLayoutDialog.backdrop:BuiStyle("Outside")
-		_G.EditModeSystemSettingsDialog.backdrop:BuiStyle("Outside")
+		_G.DressUpFrame.backdrop:BuiStyle("Outside")
 	end
 
 	if db.friends then
 		_G.AddFriendFrame:BuiStyle("Outside")
-		_G.FriendsFrame:BuiStyle("Outside")
-		_G.FriendsFriendsFrame:BuiStyle("Outside")
-		_G.QuickJoinRoleSelectionFrame:BuiStyle("Outside")
-		_G.RecruitAFriendFrame:BuiStyle("Outside")
+		_G.FriendsFrame.backdrop:BuiStyle("Outside")
+		_G.FriendsFriendsFrame.backdrop:BuiStyle("Outside")
 	end
 
 	if db.gossip then
-		_G.GossipFrame:BuiStyle("Outside")
-		_G.ItemTextFrame:BuiStyle("Outside")
-	end
-
-	if db.guild then
-		_G.GuildInviteFrame:BuiStyle("Outside")
+		_G.GossipFrame.backdrop:BuiStyle("Outside")
+--		if not E.Mists then
+--			_G.ItemTextFrame.backdrop:BuiStyle("Outside")
+--		else
+			_G.ItemTextFrame:BuiStyle("Outside")
+--		end
 	end
 
 	if db.guildregistrar then
@@ -87,44 +84,24 @@ local function LoadSkin()
 	end
 
 	if db.lfg then
-		_G.LFGInvitePopup:BuiStyle("Outside")
-		_G.LFGDungeonReadyDialog:BuiStyle("Outside")
-		_G.LFGDungeonReadyStatus:BuiStyle("Outside")
-		_G.LFGListApplicationDialog:BuiStyle("Outside")
-		_G.LFGListInviteDialog:BuiStyle("Outside")
-		_G.PVEFrame:BuiStyle("Outside")
-
-		local function forceTabFont(button)
-			if button.isSkinned then
-				return
-			end
-			local text = button:GetFontString()
-			if text then
-				text:FontTemplate(nil, 11)
-			end
-			button.isSkinned = true
+		if not E.Classic and _G.PVEFrame then
+			_G.PVEFrame:BuiStyle("Outside")
 		end
-		forceTabFont(_G.LFGListFrame.ApplicationViewer.NameColumnHeader)
-		forceTabFont(_G.LFGListFrame.ApplicationViewer.RoleColumnHeader)
-		forceTabFont(_G.LFGListFrame.ApplicationViewer.ItemLevelColumnHeader)
 	end
 
 	if db.loot then
 		_G.LootFrame:BuiStyle("Outside")
 		_G.MasterLooterFrame:BuiStyle("Outside")
-		_G.BonusRollFrame:BuiStyle("Outside")
-		_G.GroupLootHistoryFrame:BuiStyle("Outside")
-		_G.GroupLootHistoryFrame.ResizeButton:CreateSoftShadow()
 	end
 
 	if db.mail then
-		_G.MailFrame:BuiStyle("Outside")
-		_G.OpenMailFrame:BuiStyle("Outside")
+			_G.MailFrame:BuiStyle("Outside")
+			_G.OpenMailFrame:BuiStyle("Outside")
 	end
 
 	if db.merchant then
 		if _G.MerchantFrame then
-			_G.MerchantFrame:BuiStyle("Outside")
+			_G.MerchantFrame.backdrop:BuiStyle("Outside")
 		end
 	end
 
@@ -143,13 +120,12 @@ local function LoadSkin()
 		end
 
 		_G.BNToastFrame:BuiStyle("Outside")
-		--_G.CinematicFrameCloseDialog:BuiStyle("Outside")
 		_G.GameMenuFrame:BuiStyle("Outside")
-		_G.GhostFrame:BuiStyle("Outside")
-		_G.LFDRoleCheckPopup:BuiStyle("Outside")
-		_G.ReportFrame:BuiStyle("Outside")
-		_G.QueueStatusFrame:BuiStyle("Outside")
-		_G.ReportCheatingDialog:BuiStyle("Outside")
+		if not E.Classic then
+			_G.QueueStatusFrame:BuiStyle("Outside")
+			_G.ReportFrame:BuiStyle("Outside")
+		end
+		_G.ReportCheatingDialog.backdrop:BuiStyle("Outside")
 		_G.SideDressUpFrame:BuiStyle("Outside")
 		_G.StackSplitFrame:BuiStyle("Outside")
 		_G.StaticPopup1:BuiStyle("Outside")
@@ -167,6 +143,16 @@ local function LoadSkin()
 			local menuBackdrop = _G[listFrameName..'MenuBackdrop']
 			menuBackdrop:BuiStyle("Outside")
 		end)
+
+		local function StylePopups()
+			for i = 1, MAX_STATIC_POPUPS do
+				local frame = _G['ElvUI_StaticPopup'..i]
+				if frame and not frame.style then
+					frame:BuiStyle("Outside")
+				end
+			end
+		end
+		C_TimerAfter(1, StylePopups)
 	end
 
 	if db.nonraid then
@@ -179,63 +165,76 @@ local function LoadSkin()
 
 	if db.pvp then
 		_G.PVPReadyDialog:BuiStyle("Outside")
+		if not E.Classic then
+			_G.PVPFrame:BuiStyle("Outside")
+--			_G.BattlefieldFrame.backdrop:BuiStyle("Outside")
+			for i = 1, 2 do
+				local tab = _G["PVPParentFrameTab" .. i]
+				if tab and tab.backdrop then
+					tab.backdrop:SetTemplate("Transparent")
+					tab.backdrop:CreateSoftShadow()
+				end
+			end
+		end
+	end
+	if db.battlefield then
+		if E.Classic then
+			_G.BattlefieldFrame.backdrop:BuiStyle("Outside")
+		end
 	end
 
 	if db.quest then
-		_G.QuestFrame:BuiStyle("Outside")
-		_G.QuestLogPopupDetailFrame:BuiStyle("Outside")
-		_G.QuestModelScene.backdrop:BuiStyle("Outside")
-
-		_G.QuestModelScene.ModelTextFrame:ClearAllPoints()
-		_G.QuestModelScene.ModelTextFrame:Point("TOP", _G.QuestModelScene.backdrop, "BOTTOM", 0, -4)
-		_G.QuestModelScene.ModelTextFrame.backdrop:CreateSoftShadow()
-		_G.QuestModelScene.ModelTextFrame.backdrop.shadow:SetShown(E.db.benikui.general.shadows)
+		if not E.Mists then
+			_G.QuestFrame.backdrop:BuiStyle("Outside")
+		end
+		if E.Mists then
+			_G.QuestFrame:BuiStyle("Outside")
+			_G.QuestLogFrame:BuiStyle("Outside")
+		end
+		if not E.Mists then
+			_G.QuestLogFrame.backdrop:BuiStyle("Outside")
+		end
+		if not E.Classic and _G.QuestLogDetailFrame and _G.QuestLogDetailFrame.backdrop then
+			_G.QuestLogDetailFrame.backdrop:BuiStyle("Outside")
+		end
 	end
 
 	if db.stable then
-		_G.StableFrame:BuiStyle("Outside")
+		if not E.Classic then
+			_G.PetStableFrame:BuiStyle("Outside")
+		else	
+			_G.PetStableFrame.backdrop:BuiStyle("Outside")
+		end
+	end
+
+	if db.spellbook then
+		if not E.Classic then
+			_G.SpellBookFrame:BuiStyle("Outside")
+		else
+			_G.SpellBookFrame.backdrop:BuiStyle("Outside")
+		end
 	end
 
 	if db.tabard then
 		_G.TabardFrame:BuiStyle("Outside")
 	end
 
-	if db.talkinghead then
-		local TalkingHeadFrame = _G.TalkingHeadFrame
-
-		if E.db.general.talkingHeadFrameBackdrop then
-			TalkingHeadFrame:BuiStyle("Outside")
-		else
-			TalkingHeadFrame.MainFrame.Model.backdrop:BuiStyle("Outside")
-		end
-	end
-
 	if db.taxi then
-		_G.TaxiFrame:BuiStyle("Outside")
+		if E.Mists then
+			_G.TaxiFrame:BuiStyle("Outside")
+		else 
+			_G.TaxiFrame.backdrop:BuiStyle("Outside")
+		end
 	end
 
 	if db.trade then
 		_G.TradeFrame:BuiStyle("Outside")
 	end
 
-	if db.worldmap then
-		local QuestMapFrame = _G.QuestMapFrame
-		local tabs = {
-			QuestMapFrame.QuestsTab,
-			QuestMapFrame.EventsTab,
-			QuestMapFrame.MapLegendTab
-		}
-		for _, tab in next, tabs do
-			tab.backdrop:SetTemplate('Transparent')
-			tab.backdrop:CreateSoftShadow()
-			tab.backdrop.shadow:SetShown(E.db.benikui.general.shadows)
-		end
-	end
-
 	if IsAddOnLoaded('ColorPickerPlus') then return end
 	_G.ColorPickerFrame:HookScript('OnShow', function(frame)
-		if frame and not frame.style then
-			frame:BuiStyle("Outside")
+		if frame.backdrop and not frame.backdrop.style then
+			frame.backdrop:BuiStyle("Outside")
 		end
 	end)
 end
@@ -247,8 +246,14 @@ function mod:styleWorldMap()
 		return
 	end
 
-	local mapFrame = _G.WorldMapFrame
-	if not mapFrame.backdrop.style then
-		mapFrame.backdrop:BuiStyle("Outside")
+	if BUI:IsAddOnEnabled('Leatrix_Maps') and _G.LeaMapsDB["UseDefaultMap"] == "Off" then return end
+	local miniMapFrame = _G.WorldMapFrame.MiniBorderFrame.backdrop
+	if miniMapFrame and not miniMapFrame.style then
+		miniMapFrame:BuiStyle("Outside")
+	end
+
+	local bigMapFrame = _G.WorldMapFrame.BorderFrame.backdrop
+	if bigMapFrame and not bigMapFrame.style then
+		bigMapFrame:BuiStyle("Outside")
 	end
 end
